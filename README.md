@@ -46,3 +46,5 @@ set app-password=1234
 npm i debug
 //runnig debug with node
 DEBUG=app:db nodemon index.js
+//generate template html
+npm i pug

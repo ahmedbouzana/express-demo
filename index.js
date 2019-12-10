@@ -1,5 +1,4 @@
-const startupDebugger = require("debug")("app:startup"); // debug with name space app:startup
-const dbDebugger = require("debug")("app:db"); // debug with name space app:db
+const debug = require("debug")("app:startup"); // debug with name space app:startup
 const config = require("config");
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -7,6 +6,9 @@ const Joi = require("joi");
 const express = require("express");
 const logger = require("./logger");
 const app = express();
+
+app.set("view engine", "pug"); // set property view engine og pug template
+app.set("views", "./views"); // set default root for template
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // for complexe url
@@ -21,10 +23,8 @@ console.log("Mail Password: " + config.get("mail.password"));
 //check environement, set NODE_ENV=production
 if (app.get("env") === "development") {
   app.use(morgan("tiny")); //http request logger
-  startupDebugger("Morgan enabled...");
+  debug("Morgan enabled..."); //console.log()
 }
-
-dbDebugger("Connected to the database...");
 
 app.use(logger);
 
@@ -35,7 +35,8 @@ const courses = [
 ];
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  //res.send("Hello World");
+  res.render("index", { title: "My Express App", message: "Hello" }); // using index.pug template
 });
 
 app.get("/api/courses", (req, res) => {
