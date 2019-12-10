@@ -1,8 +1,32 @@
+const startupDebugger = require("debug")("app:startup"); // debug with name space app:startup
+const dbDebugger = require("debug")("app:db"); // debug with name space app:db
+const config = require("config");
+const morgan = require("morgan");
+const helmet = require("helmet");
 const Joi = require("joi");
 const express = require("express");
+const logger = require("./logger");
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // for complexe url
+app.use(express.static("public")); //for file
+app.use(helmet()); //secure app
+
+//configuration
+console.log("Application Name: " + config.get("name"));
+console.log("Mail Server: " + config.get("mail.host"));
+console.log("Mail Password: " + config.get("mail.password"));
+
+//check environement, set NODE_ENV=production
+if (app.get("env") === "development") {
+  app.use(morgan("tiny")); //http request logger
+  startupDebugger("Morgan enabled...");
+}
+
+dbDebugger("Connected to the database...");
+
+app.use(logger);
 
 const courses = [
   { id: 1, name: "course1" },

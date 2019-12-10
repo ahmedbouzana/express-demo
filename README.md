@@ -30,5 +30,19 @@ npm i -g npm
 npm i -g nodemon --save-dev
 //set the default port
 set PORT=5000
-//install joi
+//install joi to validate variable
 npm i joi
+//install helmet to secure app
+npm i helmet
+//install morgan for http request logger
+npm i morgan
+//set varibale envirenment
+set NODE_ENV=production or set NODE_ENV=development
+//install configuration
+npm i config
+//set password on custom-environment-variables
+set app-password=1234
+//install debugging, set DEBUG=app:startup or set DEBUG= or set DEBUG=app:startup, app:db or set DEBUG=app:\*
+npm i debug
+//runnig debug with node
+DEBUG=app:db nodemon index.js
